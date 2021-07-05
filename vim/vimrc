@@ -143,6 +143,7 @@ let g:ycm_semantic_triggers =  {
   \ }
 
 " settings for python-mode
+let g:pymode_lint_ignore = ["E251", "W",]
 let g:pymode_options_max_line_length = 110
 let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length}
 let g:pymode_options_colorcolumn = 0
