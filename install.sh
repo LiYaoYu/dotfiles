@@ -10,7 +10,6 @@ show_help() {
     echo "  -g    setup the environment to support golang development"
     echo "  -w    setup the environment includes the tools for windows manager"
     echo "  -d    setup the environment for docker deployment"
-    echo "  -k    setup the environment for kubernetes deployment"
     echo "  -m    setup the mosh server"
     exit 0
 }
@@ -24,7 +23,6 @@ get_cli_arg() {
     G_DEV_SUPPORT=false
     WM_SUPPORT=false
     DOCKER_SUPPORT=false
-    K8S_SUPPORT=false
     MOSH_SUPPORT=false
 
     for i in "$@"; do
@@ -35,15 +33,10 @@ get_cli_arg() {
             -g) G_DEV_SUPPORT=true ;;
             -w) WM_SUPPORT=true ;;
             -d) DOCKER_SUPPORT=true ;;
-            -k) K8S_SUPPORT=true ;;
             -m) MOSH_SUPPORT=true ;;
         esac
         shift
     done
-
-    if [ "$K8S_SUPPORT" = "true" ]; then
-    	DOCKER_SUPPORT=true
-    fi
 
     echo "DISTRIBUTION   = ${DISTRIBUTION}"
     echo "C_DEV_SUPPORT  = ${C_DEV_SUPPORT}"
@@ -51,7 +44,6 @@ get_cli_arg() {
     echo "G_DEV_SUPPORT  = ${G_DEV_SUPPORT}"
     echo "WM_SUPPORT     = ${WM_SUPPORT}"
     echo "DOCKER_SUPPORT = ${DOCKER_SUPPORT}"
-    echo "K8S_SUPPORT    = ${K8S_SUPPORT}"
     echo "MOSH_SUPPORT   = ${MOSH_SUPPORT}"
 }
 
@@ -101,16 +93,6 @@ install_requirements_from_package_management_system() {
         REQUIREMENTS="${REQUIREMENTS} guake gcin"
     fi
 
-    if [ "$DOCKER_SUPPORT" = "true" ]; then
-        # TODO
-        echo "DOCKER_SUPPORT = ${DOCKER_SUPPORT}"
-    fi
-
-    if [ "$K8S_SUPPORT" = "true" ]; then
-        # TODO
-        echo "K8S_SUPPORT = ${K8S_SUPPORT}"
-    fi
-
     if [ "$MOSH_SUPPORT" = "true" ]; then
         REQUIREMENTS="${REQUIREMENTS} mosh"
     fi
@@ -135,6 +117,20 @@ install_requirements_from_non_package_management_system() {
         go get -u golang.org/x/lint/golint
         sudo ln -sf $(go list -f {{.Target}} golang.org/x/lint/golint) /bin/golint
     fi
+
+    if [ "$DOCKER_SUPPORT" = "true" ]; then
+        if [ "$DISTRIBUTION" = "elementary" ] || [ "$DISTRIBUTION" = "ubuntu" ]; then
+            sudo $PKG_INSTALL apt-transport-https ca-certificates curl gnupg2 software-properties-common
+	    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	    apt-key fingerprint 0EBFCD88
+	    add-apt-repository  "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+	        $(lsb_release -cs) stable"
+            sudo $PKG_INSTALL docker-ce
+        else # including arch & manjaro
+            sudo $PKG_INSTALL docker
+        fi
+    fi
+
 }
 
 install_and_set_ohmyzsh() {
@@ -154,10 +150,6 @@ install_and_set_ohmyzsh() {
 
     if [ "$G_DEV_SUPPORT" = "true" ]; then
         echo "export GOPATH=~/.golang" >> ~/.zshrc
-    fi
-
-    if [ "$K8S_SUPPORT" = "true" ]; then
-        echo "source <(kubectl completion zsh)" >> ~/.zshrc
     fi
 }
 
