@@ -1,22 +1,43 @@
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+# Enable Powerlevel10k instant prompt, and should stay close to the top of ~/.zshrc
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source ~/.zplug/init.zsh
+
+HISTSIZE=1000000
+SAVEHIST=1000000
+HISTFILE=~/.zsh_history
 
 # Set tmux color to 256
 if [ "$TERM" != "xterm-256color" ]; then
   export TERM=xterm-256color
 fi
 
-# Set zsh theme
-ZSH_THEME="mytheme"
+zplug 'romkatv/powerlevel10k', as:theme, depth:1
+zplug 'Aloxaf/fzf-tab'
+zplug 'zsh-users/zsh-autosuggestions'
 
-# Set the command execution time stamp shown in the history command output
-HIST_STAMPS="mm/dd/yyyy"
+# Configure fzf appearance
+export FZF_DEFAULT_OPTS="--color=dark,hl:bright-blue,hl+:bright-blue:underline,fg+:yellow:bold:underline,bg+:-1 --reverse"
 
-# Custom plugins
-plugins=(git)
+# Configure auto suggestion accept key
+bindkey '^k' autosuggest-accept
 
-# oh-my-zsh
-source $ZSH/oh-my-zsh.sh
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# Source plugins and add commands to $PATH
+zplug load
 
 # Alias
-alias g="git"
+alias g='git'
+alias history='fc -il 1'
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
