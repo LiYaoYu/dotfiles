@@ -1,0 +1,5 @@
+require('basic')
+require('map')
+require('statusline')
+require('plugins')
+require('lsp')
