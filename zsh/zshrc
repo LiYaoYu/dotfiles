@@ -1,8 +1,3 @@
-# Enable Powerlevel10k instant prompt, and should stay close to the top of ~/.zshrc
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 source ~/.zplug/init.zsh
 
 HISTSIZE=1000000
@@ -14,7 +9,8 @@ if [ "$TERM" != "xterm-256color" ]; then
     export TERM=xterm-256color
 fi
 
-zplug 'romkatv/powerlevel10k', as:theme, depth:1
+# ZSH plugins
+zplug 'woefe/git-prompt.zsh', use:"{git-prompt.zsh,yyprompt.zsh}"
 zplug 'Aloxaf/fzf-tab'
 zplug 'zsh-users/zsh-autosuggestions'
 
@@ -38,6 +34,6 @@ zplug load
 # Alias
 alias g='git'
 alias history='fc -il 1'
+alias ls='ls --color=auto'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
