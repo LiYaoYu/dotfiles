@@ -2,7 +2,7 @@
 vim.opt.list = true
 vim.opt.listchars:append('trail:⋅')
 vim.highlight.create('Whitespace', {ctermfg = 'red'}, false)
-vim.highlight.create('IndentBlanklineChar', {ctermfg = 239}, false)
+vim.highlight.create('IndentBlanklineChar', {ctermfg = 234}, false)
 vim.highlight.create('IndentBlanklineSpaceChar', {ctermfg = 239}, false)
 
 return require('packer').startup(function(use)
