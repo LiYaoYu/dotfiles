@@ -1,6 +1,3 @@
--- TODO: highlight search modification
--- TODO: tab configurations
-
 -- change the comfirmation color
 vim.o.background = "dark"
 
@@ -49,17 +46,29 @@ vim.api.nvim_command('hi CursorLine cterm=none ctermbg=234')
 vim.api.nvim_command('let &colorcolumn=join(range(111,999),",")')
 vim.api.nvim_command('hi ColorColumn ctermbg=232')
 
+-- set tab expanding
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+
+-- set tab config specifically for Makefile
+vim.api.nvim_exec('au FileType make setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab', false)
+
 -- modify popup menu color
 vim.api.nvim_command('hi Pmenu ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE')
 vim.api.nvim_command('hi PmenuSel ctermfg=NONE ctermbg=24 cterm=NONE guifg=NONE guibg=#204a87 gui=NONE')
+
+-- modify window separator
+vim.api.nvim_command('set fillchars=vert:\\|')
+vim.api.nvim_command(':hi VertSplit ctermbg=NONE guibg=NONE cterm=none ctermfg=236')
+vim.api.nvim_exec('au ColorScheme * hl VertSplit ctermbg=NONE guibg=NONE cterm=none ctermfg=236', false)
 
 -- disable inlined diagnostic
 vim.diagnostic.disable()
 
 -- enable diagnostic in quickfix if exists when saving files
-vim.api.nvim_exec([[
-    au BufWritePre * lua diagdisplay()
-]], false)
+vim.api.nvim_exec([[au BufWritePre * lua diagdisplay()]], false)
 
 -- Diagnostic display function
 function diagdisplay()

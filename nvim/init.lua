@@ -1,5 +1,6 @@
 require('basic')
 require('map')
+require('bufferline')
 require('statusline')
 require('plugins')
 require('lsp')

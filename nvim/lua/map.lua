@@ -36,6 +36,9 @@ vim.api.nvim_set_keymap('n', '<F5>', ':lua rgsearch()<CR><CR>', {})
 vim.api.nvim_set_keymap('n', '<F6>', ':Files<CR>', {})
 vim.api.nvim_set_keymap('n', '<F7>', ':NERDTree<CR>', {})
 
+-- search highlight
+vim.api.nvim_set_keymap('n', '<F8>', ':noh<CR>', {})
+
 -- Rg search function
 function rgsearch()
     vim.api.nvim_command('let target = input(":Rg ")')
