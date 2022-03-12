@@ -1,18 +1,20 @@
 [push]
-	default = simple
+    default = simple
 [core]
-	editor = vim
+    editor = nvim
 [alias]
-	st = status
-	ci = commit
-	co = checkout
-	br = branch
-	lg = log --decorate
-	lt = log --graph --oneline --decorate --all
-	ltd = log --graph --decorate --all
-	d = difftool
-	mt = mergetool
-[diff]
-	tool = vimdiff
+    st = status
+    ci = commit
+    co = checkout
+    br = branch
+    lg = log --decorate
+    lt = log --graph --oneline --decorate --all
+    ltd = log --graph --decorate --all
+    d = difftool
+    mt = mergetool
 [difftool]
-	prompt = false
+    prompt = false
+[diff]
+    tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = nvim -d "$LOCAL" "$REMOTE"
