@@ -66,21 +66,3 @@ vim.api.nvim_exec('au ColorScheme * hl VertSplit ctermbg=NONE guibg=NONE cterm=n
 
 -- disable inlined diagnostic
 vim.diagnostic.disable()
-
--- enable diagnostic in quickfix if exists when saving files
-vim.api.nvim_exec([[au BufWritePre * lua diagdisplay()]], false)
-
--- Diagnostic display function
-function diagdisplay()
-    local num = 0
-    local diag = vim.diagnostic.get()
-
-    if ((#diag) ~= 0) then
-        vim.diagnostic.setqflist()
-
-        -- enable statueline applied to quickfix
-        vim.api.nvim_exec('windo setlocal statusline=%!v:lua.statuslinedisplay()', false)
-    else
-        vim.api.nvim_exec('ccl', false)
-    end
-end

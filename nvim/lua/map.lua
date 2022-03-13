@@ -24,6 +24,9 @@ vim.api.nvim_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', {})
 vim.api.nvim_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', {})
 -- vim.api.nvim_set_keymap('n', 'rn', '<cmd>lua require("lspsaga.rename").rename()<CR>', {})
 
+-- toggle diagnostic on save
+vim.api.nvim_set_keymap('n', '<F1>', ':lua toggleDiagQuickFix()<CR>', {})
+
 -- current file vertical splitting
 vim.api.nvim_set_keymap('n', '<F2>', ':vsplit<CR>', {})
 
@@ -45,4 +48,45 @@ function rgsearch()
     vim.api.nvim_command('exec "normal mX"')
     vim.api.nvim_command('exec "Rg ". target')
     vim.api.nvim_command('exec "normal mY"')
+end
+
+-- Diagnostic display configurations
+local diag_toggle_flag = true
+
+function toggleDiagQuickFix()
+    if (diag_toggle_flag) then
+        vim.api.nvim_exec('lua diagdisplay()', false)
+
+        vim.api.nvim_exec([[
+            augroup DiagDisplay
+                au BufWritePre * lua diagdisplay()
+            augroup END
+        ]], false)
+
+        diag_toggle_flag = false
+    else
+        vim.api.nvim_exec('ccl', false)
+
+        vim.api.nvim_exec([[
+            augroup DiagDisplay
+                autocmd!
+            augroup END
+        ]], false)
+
+        diag_toggle_flag = true
+    end
+end
+
+function diagdisplay()
+    local num = 0
+    local diag = vim.diagnostic.get()
+
+    if ((#diag) ~= 0) then
+        vim.diagnostic.setqflist()
+
+        -- enable statueline applied to quickfix
+        vim.api.nvim_exec('windo setlocal statusline=%!v:lua.statuslinedisplay()', false)
+    else
+        vim.api.nvim_exec('ccl', false)
+    end
 end
