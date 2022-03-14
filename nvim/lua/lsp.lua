@@ -1,5 +1,5 @@
 -- lsp config
-require("nvim-lsp-installer").on_server_ready(function(server)
+require('nvim-lsp-installer').on_server_ready(function(server)
     server:setup({
         root_dir = function() return vim.loop.cwd() end
     })
@@ -22,6 +22,17 @@ cmp.setup({
         ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
         ['<C-y>'] = cmp.config.disable,
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    formatting = {
+        format = function(entry, vim_item)
+            -- set a name for each source
+            vim_item.menu = ({
+                buffer = '[BUF]',
+                nvim_lsp = '[LSP]',
+                luasnip = '[LUA]',
+            })[entry.source.name]
+            return vim_item
+        end
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
