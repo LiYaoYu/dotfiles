@@ -27,18 +27,20 @@ cmp.setup({
         format = function(entry, vim_item)
             -- set a name for each source
             vim_item.menu = ({
-                buffer = '[BUF]',
                 nvim_lsp = '[LSP]',
                 luasnip = '[LUA]',
+                cmp_tabnine = '[TAB9]',
+                buffer = '[BUF]',
             })[entry.source.name]
             return vim_item
         end
     },
     sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
+        {name = 'nvim_lsp'},
+        {name = 'luasnip'},
+        {name = 'cmp_tabnine'},
     }, {
-        { name = 'buffer' },
+        {name = 'buffer'},
     })
 })
 

@@ -64,5 +64,12 @@ vim.api.nvim_command('set fillchars=vert:\\|')
 vim.api.nvim_command(':hi VertSplit ctermbg=NONE guibg=NONE cterm=none ctermfg=236')
 vim.api.nvim_exec('au ColorScheme * hl VertSplit ctermbg=NONE guibg=NONE cterm=none ctermfg=236', false)
 
--- disable inlined diagnostic
-vim.diagnostic.disable()
+-- diagnostic config
+vim.api.nvim_command('hi SignColumn ctermbg=none')
+
+local signs = { Error = '│', Warn = '│', Hint = '│', Info = '│' }
+
+for type, icon in pairs(signs) do
+  local hl = 'DiagnosticSign' .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end

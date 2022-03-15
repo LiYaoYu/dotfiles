@@ -31,6 +31,7 @@ return require('packer').startup(function(use)
     use {'hrsh7th/cmp-path'}
     use {'hrsh7th/cmp-cmdline'}
     use {'saadparwaiz1/cmp_luasnip'}
+    use {'tzachar/cmp-tabnine', run = './install.sh', requires = 'hrsh7th/nvim-cmp'}
 
     -- snippets
     use {'L3MON4D3/LuaSnip'}
