@@ -31,6 +31,14 @@ fi
 # Source plugins and add commands to $PATH
 zplug load
 
+# Set the up and down for history search with prefix
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+
 # Alias
 alias g='git'
 alias history='fc -il 1'
