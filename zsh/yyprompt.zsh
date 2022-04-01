@@ -1,7 +1,7 @@
 ZSH_GIT_PROMPT_SHOW_UPSTREAM="no"
 
 ZSH_THEME_GIT_PROMPT_PREFIX="[ "
-ZSH_THEME_GIT_PROMPT_SUFFIX=" ] "
+ZSH_THEME_GIT_PROMPT_SUFFIX=" ]"
 ZSH_THEME_GIT_PROMPT_SEPARATOR=" |"
 ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg_bold[yellow]%}"
 ZSH_THEME_GIT_PROMPT_BEHIND=" BH:"
@@ -13,5 +13,5 @@ ZSH_THEME_GIT_PROMPT_UNTRACKED=" UT:"
 ZSH_THEME_GIT_PROMPT_STASHED="%{$fg[blue]%} SH:"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%} ✓"
 
-PROMPT='%(?:%F{green}➜:%F{red}➜) %n@%m %F{white}%1~ '
+PROMPT='%(?:%F{70}➜:%F{9}➜) %n@%m %F{white}%1~ '
 RPROMPT='%f%b$(gitprompt)'
