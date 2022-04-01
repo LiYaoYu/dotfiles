@@ -1,4 +1,5 @@
 require('basic')
+require('syntax')
 require('map')
 require('bufferline')
 require('statusline')
