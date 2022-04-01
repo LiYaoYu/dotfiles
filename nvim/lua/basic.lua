@@ -58,6 +58,7 @@ vim.api.nvim_exec('au FileType make setlocal tabstop=4 softtabstop=4 shiftwidth=
 -- modify popup menu color
 vim.api.nvim_command('hi Pmenu ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE')
 vim.api.nvim_command('hi PmenuSel ctermfg=NONE ctermbg=24 cterm=NONE guifg=NONE guibg=#204a87 gui=NONE')
+vim.api.nvim_command('hi NormalFloat ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE')
 
 -- modify window separator
 vim.api.nvim_command('set fillchars=vert:\\|')
