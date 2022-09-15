@@ -17,9 +17,6 @@ zplug 'zsh-users/zsh-autosuggestions'
 # Configure fzf appearance
 export FZF_DEFAULT_OPTS="--color=dark,hl:bright-blue,hl+:bright-blue:underline,fg+:yellow:bold:underline,bg+:-1 --reverse"
 
-# Configure auto suggestion accept key
-bindkey '^k' autosuggest-accept
-
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
@@ -31,17 +28,23 @@ fi
 # Source plugins and add commands to $PATH
 zplug load
 
+# Add python binary to $PATH
+PATH=$PATH:~/.local/bin
+
 # Set the up and down for history search with prefix
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-bindkey '^[[A' up-line-or-beginning-search
-bindkey '^[[B' down-line-or-beginning-search
+bindkey '^[k' up-line-or-beginning-search
+bindkey '^[j' down-line-or-beginning-search
+bindkey '^[h' backward-word
+bindkey '^[l' forward-word
 
 # Alias
 alias g='git'
 alias history='fc -il 1'
 alias ls='ls --color=auto'
+alias vim='nvim'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
