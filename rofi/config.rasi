@@ -1,0 +1,37 @@
+* {
+    purewhite:                   rgba ( 255, 255, 255, 100 % );
+    darkgrey:                    rgba ( 32, 32, 32, 80 % );
+    lightgrey:                   rgba ( 128, 128, 128, 100 % );
+    pureblack:                   rgba ( 0, 0, 0, 80 % );
+    foreground:                  @lightgrey;
+    background:                  @pureblack;
+    separatorcolor:              @purewhite;
+    selected-normal-foreground:  @purewhite;
+    alternate-normal-background: @pureblack;
+    selected-normal-background:  @darkgrey;
+}
+
+window {
+    transparency: "screenshot";
+}
+
+configuration {
+  font: "Fira Code 11";
+  modi: "drun";
+}
+
+listview {
+    scrollbar: false;
+    spacing: 0px;
+}
+
+prompt {
+    spacing:    0;
+    text-color: @purewhite;
+}
+
+textbox-prompt-colon {
+    expand:     false;
+    str:        ": ";
+    text-color: @purewhite;
+}
