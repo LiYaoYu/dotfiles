@@ -10,8 +10,9 @@ if [ "$TERM" != "xterm-256color" ]; then
 fi
 
 # ZSH plugins
-zplug 'woefe/git-prompt.zsh', use:"{git-prompt.zsh,examples/yyprompt.zsh}"
 zplug 'Aloxaf/fzf-tab'
+zplug 'woefe/git-prompt.zsh', use:'{git-prompt.zsh,simple/simple.zsh}'
+zplug 'tom-auger/cmdtime'
 zplug 'zsh-users/zsh-autosuggestions'
 
 # Configure fzf appearance
