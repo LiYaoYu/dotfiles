@@ -133,24 +133,14 @@ install_requirements_from_non_package_management_system() {
 
 }
 
-install_and_set_ohmyzsh() {
-    # TODO: survey zsh + zplug (https://www.jkg.tw/p2965/)
 
-    # "https://git.io/vhqYi" is the shorten URL of oh-my-zsh installation script
-    # which allows batch mode and is updated in pull requests #5893, link is as
-    # below:
-    # "https://github.com/robbyrussell/oh-my-zsh/pull/5893"
-    sh -c "$(curl -fsSL https://git.io/vhqYi)" -s --batch || {
-        echo "Could not install Oh My Zsh" >/dev/stderr
-        exit 1
-    }
+install_and_set_zsh() {
+    # Install zplug
+    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 
-    cp `pwd`/zsh/zshrc ~/.zshrc
-    ln -fs `pwd`/zsh/mytheme.zsh-theme ~/.oh-my-zsh/themes/mytheme.zsh-theme
+    chsh -s `which zsh`
 
-    if [ "$G_DEV_SUPPORT" = "true" ]; then
-        echo "export GOPATH=~/.golang" >> ~/.zshrc
-    fi
+    # TODO: install zplug plugins and update the .zsh theme
 }
 
 
@@ -161,32 +151,34 @@ install_and_set_tmux() {
 
 install_and_set_git() {
     cp `pwd`/git/gitconfig ~/.gitconfig
+    ln -fs `pwd`/git/gitmessage.txt ~/.gitmessage.txt
 }
 
 
-install_and_set_vim() {
-    ln -fs `pwd`/vim/vimrc ~/.vimrc
-    ln -fs `pwd`/vim/ycm_extra_conf.py ~/.ycm_extra_conf.py
+install_and_set_neovim() {
+    # TODO: configure neovim
+    # ln -fs `pwd`/vim/vimrc ~/.vimrc
+    # ln -fs `pwd`/vim/ycm_extra_conf.py ~/.ycm_extra_conf.py
 
-    git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-    vim +PluginInstall +qall
+    # git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    # vim +PluginInstall +qall
 
-    COMPLETER=""
+    # COMPLETER=""
 
-    if [ "$C_DEV_SUPPORT" = "true" ]; then
-	COMPLETER="${COMPLETER} --clang-completer"
-    fi
+    # if [ "$C_DEV_SUPPORT" = "true" ]; then
+    #     COMPLETER="${COMPLETER} --clang-completer"
+    # fi
 
-    if [ "$G_DEV_SUPPORT" = "true" ]; then
-        vim +GoInstallBinaries +qall
-	COMPLETER="${COMPLETER} --go-completer"
-    fi
+    # if [ "$G_DEV_SUPPORT" = "true" ]; then
+    #     vim +GoInstallBinaries +qall
+    #     COMPLETER="${COMPLETER} --go-completer"
+    # fi
 
-    if [ "$C_DEV_SUPPORT" = "true" ] || [ "$G_DEV_SUPPORT" = "true" ]; then
-        ~/.vim/bundle/YouCompleteMe/install.py $COMPLETER
-    fi
+    # if [ "$C_DEV_SUPPORT" = "true" ] || [ "$G_DEV_SUPPORT" = "true" ]; then
+    #     ~/.vim/bundle/YouCompleteMe/install.py $COMPLETER
+    # fi
 
-    ln -fs `pwd`/vim/ftplugin ~/.vim/ftplugin
+    # ln -fs `pwd`/vim/ftplugin ~/.vim/ftplugin
 }
 
 
@@ -198,8 +190,8 @@ main() {
     install_requirements_from_package_management_system
     install_requirements_from_non_package_management_system
 
-    echo installing and setting oh-my-zsh ...
-    install_and_set_ohmyzsh
+    echo installing and setting zsh ...
+    install_and_set_zsh
 
     echo installing and setting tmux ...
     install_and_set_tmux
@@ -208,7 +200,7 @@ main() {
     install_and_set_git
 
     echo installing and setting vim ...
-    install_and_set_vim
+    install_and_set_neovim
 }
 
 main "$@"

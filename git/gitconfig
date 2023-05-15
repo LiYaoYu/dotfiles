@@ -18,3 +18,5 @@
     tool = nvimdiff
 [difftool "nvimdiff"]
     cmd = nvim -d "$LOCAL" "$REMOTE"
+[commit]
+	template = ~/.gitmessage.txt
