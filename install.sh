@@ -102,6 +102,10 @@ install_requirements_from_package_management_system() {
 }
 
 install_requirements_from_non_package_management_system() {
+    # fzf installation
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+
     if [ "$DISTRIBUTION" = "arch" ] || [ "$DISTRIBUTION" = "manjaro" ]; then
         # yay installation
 	mkdir /tmp/yay-install
