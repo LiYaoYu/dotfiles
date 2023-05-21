@@ -133,8 +133,8 @@ super + q
 #
 
 # screenshot
-Print
-	scrot -s $HOME/screenshots/%Y%m%d-%H%M%S.png
+super + S
+	scrot -s $HOME/screenshots/%Y%m%d-%H%M%S.png -e 'xclip -selection clipboard -target image/png -i $f'
 
 #
 # function keys
