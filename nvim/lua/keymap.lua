@@ -34,6 +34,7 @@ vim.api.nvim_set_keymap('n', '<F2>', ':vsplit<CR>', {})
 
 -- explorer files/keywords
 vim.keymap.set('n', '<F3>', ':Telescope grep_string<CR>')
+vim.keymap.set('n', '<F4>', ':cdo %s///gc <Left><Left><Left><Left><Left>')
 vim.keymap.set('n', '<F5>', ':Telescope live_grep<CR>')
 vim.keymap.set('n', '<F6>', ':Telescope find_files<CR>')
 vim.keymap.set('n', '<F7>', ':NvimTreeFindFileToggle<CR>')

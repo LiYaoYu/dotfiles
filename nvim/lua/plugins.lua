@@ -87,6 +87,7 @@ require('mason-lspconfig').setup(
             'clangd',
             'html',
             'jsonls',
+            'rust_analyzer',
             'tsserver',
             'marksman',
             'pyright',
@@ -102,6 +103,7 @@ lspconfig.cssls.setup {}
 lspconfig.clangd.setup {}
 lspconfig.html.setup {}
 lspconfig.jsonls.setup {}
+lspconfig.rust_analyzer.setup {}
 lspconfig.tsserver.setup {}
 lspconfig.marksman.setup {}
 lspconfig.pyright.setup {}
