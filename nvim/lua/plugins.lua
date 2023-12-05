@@ -208,7 +208,7 @@ return require('packer').startup(function(use)
         branch = "main",
         event = "LspAttach",
         config = function()
-            require("lspsaga").setup({})
+            require("lspsaga").setup({ ui = { code_action = "" } })
         end,
     })
 
