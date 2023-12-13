@@ -15,6 +15,9 @@ zplug 'woefe/git-prompt.zsh', use:'{git-prompt.zsh,simple/simple.zsh}'
 zplug 'tom-auger/cmdtime'
 zplug 'zsh-users/zsh-autosuggestions'
 
+# Configure default editor
+export EDITOR=nvim
+
 # Configure fzf appearance
 export FZF_DEFAULT_OPTS="--color=dark,hl:bright-blue,hl+:bright-blue:underline,fg+:yellow:bold:underline,bg+:-1 --reverse"
 

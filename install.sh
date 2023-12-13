@@ -5,11 +5,6 @@ show_help() {
     echo "This script setup the environment for daily usage, there are several"
     echo "options can be configured as below:"
     echo "  -h    show this help description"
-    echo "  -c    setup the environment to support C/C++ development"
-    echo "  -p    setup the environment to support python development"
-    echo "  -g    setup the environment to support golang development"
-    echo "  -w    setup the environment includes the tools for windows manager"
-    echo "  -d    setup the environment for docker deployment"
     echo "  -m    setup the mosh server"
     exit 0
 }
@@ -18,32 +13,17 @@ get_cli_arg() {
     . /etc/os-release
 
     DISTRIBUTION=$ID
-    C_DEV_SUPPORT=false
-    P_DEV_SUPPORT=false
-    G_DEV_SUPPORT=false
-    WM_SUPPORT=false
-    DOCKER_SUPPORT=false
     MOSH_SUPPORT=false
 
     for i in "$@"; do
         case $1 in
             -h) show_help ;;
-            -c) C_DEV_SUPPORT=true ;;
-            -p) P_DEV_SUPPORT=true ;;
-            -g) G_DEV_SUPPORT=true ;;
-            -w) WM_SUPPORT=true ;;
-            -d) DOCKER_SUPPORT=true ;;
             -m) MOSH_SUPPORT=true ;;
         esac
         shift
     done
 
     echo "DISTRIBUTION   = ${DISTRIBUTION}"
-    echo "C_DEV_SUPPORT  = ${C_DEV_SUPPORT}"
-    echo "P_DEV_SUPPORT  = ${P_DEV_SUPPORT}"
-    echo "G_DEV_SUPPORT  = ${G_DEV_SUPPORT}"
-    echo "WM_SUPPORT     = ${WM_SUPPORT}"
-    echo "DOCKER_SUPPORT = ${DOCKER_SUPPORT}"
     echo "MOSH_SUPPORT   = ${MOSH_SUPPORT}"
 }
 
@@ -58,10 +38,6 @@ init_variables() {
         echo "Unsupported linux distribution found (${DISTRIBUTION})"
         exit 1
     fi
-
-    if [ "$G_DEV_SUPPORT" = "true" ]; then
-        export GOPATH=~/.golang
-    fi
 }
 
 install_requirements_from_package_management_system() {
@@ -69,29 +45,13 @@ install_requirements_from_package_management_system() {
 
     if [ "$DISTRIBUTION" = "elementary" ] || [ "$DISTRIBUTION" = "ubuntu" ]; then
         PYTHON="python3-dev python3-pip"
-        GOLANG="golang"
         REQUIREMENTS="${REQUIREMENTS} build-essential csvtool silversearcher-ag"
     else # including arch & manjaro
         PYTHON="python python-pip"
-        GOLANG="go"
         REQUIREMENTS="${REQUIREMENTS} base-devel the_silver_searcher"
     fi
 
-    if [ "$C_DEV_SUPPORT" = "true" ]; then
-        REQUIREMENTS="${REQUIREMENTS} cscope cmake"
-    fi
-
-    if [ "$P_DEV_SUPPORT" = "true" ]; then
-        REQUIREMENTS="${REQUIREMENTS} ${PYTHON}"
-    fi
-
-    if [ "$G_DEV_SUPPORT" = "true" ]; then
-        REQUIREMENTS="${REQUIREMENTS} ${GOLANG}"
-    fi
-
-    if [ "$WM_SUPPORT" = "true" ]; then
-        REQUIREMENTS="${REQUIREMENTS} guake gcin"
-    fi
+    REQUIREMENTS="${REQUIREMENTS} ${PYTHON}"
 
     if [ "$MOSH_SUPPORT" = "true" ]; then
         REQUIREMENTS="${REQUIREMENTS} mosh"
@@ -116,25 +76,6 @@ install_requirements_from_non_package_management_system() {
         # tabview installation
         yay -S tabview
     fi
-
-    if [ "$G_DEV_SUPPORT" = "true" ]; then
-        go get -u golang.org/x/lint/golint
-        sudo ln -sf $(go list -f {{.Target}} golang.org/x/lint/golint) /bin/golint
-    fi
-
-    if [ "$DOCKER_SUPPORT" = "true" ]; then
-        if [ "$DISTRIBUTION" = "elementary" ] || [ "$DISTRIBUTION" = "ubuntu" ]; then
-            sudo $PKG_INSTALL apt-transport-https ca-certificates curl gnupg2 software-properties-common
-	    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	    apt-key fingerprint 0EBFCD88
-	    add-apt-repository  "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-	        $(lsb_release -cs) stable"
-            sudo $PKG_INSTALL docker-ce
-        else # including arch & manjaro
-            sudo $PKG_INSTALL docker
-        fi
-    fi
-
 }
 
 
@@ -144,7 +85,10 @@ install_and_set_zsh() {
 
     chsh -s `which zsh`
 
-    # TODO: install zplug plugins and update the .zsh theme
+    # TODO
+    # 1. install zplug plugins and update the .zsh theme
+    # 2. make directory ~/.zplug/repos/woefe/git-prompt.zsh/simple
+    # 3. soft link the simple.zsh in ~/.zplug/repos/woefe/git-prompt.zsh/simple
 }
 
 
@@ -160,29 +104,12 @@ install_and_set_git() {
 
 
 install_and_set_neovim() {
-    # TODO: configure neovim
-    # ln -fs `pwd`/vim/vimrc ~/.vimrc
-    # ln -fs `pwd`/vim/ycm_extra_conf.py ~/.ycm_extra_conf.py
+    mkdir -p ~/.config
 
-    # git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-    # vim +PluginInstall +qall
+    ln -fs `pwd`/nvim ~/.config/nvim
 
-    # COMPLETER=""
-
-    # if [ "$C_DEV_SUPPORT" = "true" ]; then
-    #     COMPLETER="${COMPLETER} --clang-completer"
-    # fi
-
-    # if [ "$G_DEV_SUPPORT" = "true" ]; then
-    #     vim +GoInstallBinaries +qall
-    #     COMPLETER="${COMPLETER} --go-completer"
-    # fi
-
-    # if [ "$C_DEV_SUPPORT" = "true" ] || [ "$G_DEV_SUPPORT" = "true" ]; then
-    #     ~/.vim/bundle/YouCompleteMe/install.py $COMPLETER
-    # fi
-
-    # ln -fs `pwd`/vim/ftplugin ~/.vim/ftplugin
+    # TODO: install neovim packages
+    git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 }
 
 
