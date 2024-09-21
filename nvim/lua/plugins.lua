@@ -11,7 +11,7 @@ require('vscode').setup(
 
         -- override colors (see ./lua/vscode/colors.lua)
         color_overrides = {
-            vscBack = '#121212',
+            vscBack = '',
             vscPopupBack = '#323232',
             vscCursorDarkDark = '#202020',
         },
@@ -63,7 +63,7 @@ require('tabline').setup(
     }
 )
 
-require("smartcolumn").setup()
+require('smartcolumn').setup()
 
 require('mason').setup(
     {
@@ -88,7 +88,7 @@ require('mason-lspconfig').setup(
             'html',
             'jsonls',
             'rust_analyzer',
-            'tsserver',
+            'ts_ls',
             'marksman',
             'pyright',
             'yamlls',
@@ -104,18 +104,32 @@ lspconfig.clangd.setup {}
 lspconfig.html.setup {}
 lspconfig.jsonls.setup {}
 lspconfig.rust_analyzer.setup {}
-lspconfig.tsserver.setup {}
+lspconfig.ts_ls.setup {}
 lspconfig.marksman.setup {}
 lspconfig.pyright.setup {}
 lspconfig.yamlls.setup {}
 
-require('tabnine').setup(
+local cmp = require('cmp')
+
+cmp.setup(
     {
-        disable_auto_comment=true,
-        accept_keymap="<A-k>",
-        debounce_ms = 100,
-        exclude_filetypes = {"TelescopePrompt"},
-        log_file_path = nil, -- absolute path to Tabnine log file
+        preselect = cmp.PreselectMode.None,
+
+        mapping = {
+            ["<CR>"] = cmp.config.disable,
+            ["<C-p>"] = cmp.mapping.select_prev_item(),
+            ["<C-n>"] = cmp.mapping.select_next_item(),
+            ["<C-e>"] = cmp.mapping.abort(),
+            ["<C-y>"] = cmp.mapping.confirm()
+        },
+
+        sources = {
+            { name = "codeium" },
+            { name = "nvim_lsp" },
+            { name = "buffer" },
+            { name = "path" },
+            { name = "cmdline" },
+        }
     }
 )
 
@@ -181,7 +195,7 @@ return require('packer').startup(function(use)
 
     -- fuzzy file/code finding plugin
     use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.4',
+        'nvim-telescope/telescope.nvim',
         requires = {
             {
                 'nvim-lua/plenary.nvim'
@@ -202,13 +216,11 @@ return require('packer').startup(function(use)
     }
 
     -- LSP enhancement plugin
-    use({
-        "glepnir/lspsaga.nvim",
-        opt = true,
-        branch = "main",
-        event = "LspAttach",
+    use ({
+        'nvimdev/lspsaga.nvim',
+        after = 'nvim-lspconfig',
         config = function()
-            require("lspsaga").setup({ ui = { code_action = "" } })
+            require('lspsaga').setup({})
         end,
     })
 
@@ -221,9 +233,15 @@ return require('packer').startup(function(use)
         'hrsh7th/nvim-cmp',
     }
 
-    -- tabnine completing plugin
+    -- code completing AI plugin
     use {
-        'codota/tabnine-nvim',
-        run = './dl_binaries.sh'
+        "Exafunction/codeium.nvim",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "hrsh7th/nvim-cmp",
+        },
+        config = function()
+            require("codeium").setup({})
+        end
     }
 end)

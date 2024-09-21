@@ -14,8 +14,3 @@ vim.api.nvim_command('hi TabLineSeparatorSel guifg=#d7af00 guibg=#121212')
 
 -- column color highlighting
 vim.api.nvim_command('hi ColorColumn guibg=red')
-
--- tabnine highlighting
-vim.api.nvim_command[[
-  autocmd VimEnter * hi TabnineSuggestion guifg=#808080 guibg=#1c1c1c
-]]

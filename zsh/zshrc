@@ -11,7 +11,7 @@ fi
 
 # ZSH plugins
 zplug 'Aloxaf/fzf-tab'
-zplug 'woefe/git-prompt.zsh', use:'{git-prompt.zsh,simple/simple.zsh}'
+zplug 'woefe/git-prompt.zsh', use:'{git-prompt.zsh,simple.zsh}'
 zplug 'tom-auger/cmdtime'
 zplug 'zsh-users/zsh-autosuggestions'
 
@@ -33,7 +33,7 @@ fi
 zplug load
 
 # Add python binary to $PATH
-PATH=$PATH:~/.local/bin
+PATH=$PATH:~/.local/bin:~/.cargo/bin
 
 # Set the up and down for history search with prefix
 autoload -U up-line-or-beginning-search
