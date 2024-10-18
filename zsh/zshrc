@@ -19,7 +19,7 @@ zplug 'zsh-users/zsh-autosuggestions'
 export EDITOR=nvim
 
 # Configure fzf appearance
-export FZF_DEFAULT_OPTS="--color=dark,hl:bright-blue,hl+:bright-blue:underline,fg+:yellow:bold:underline,bg+:-1 --reverse"
+export FZF_DEFAULT_OPTS="--color=dark,hl:bright-blue,hl+:bright-blue:underline,fg+:yellow:bold:underline,bg+:-1 --reverse --no-unicode"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
