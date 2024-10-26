@@ -1,4 +1,6 @@
+require('boot')
 require('basic')
-require('plugins')
+require('load')
 require('keymap')
-require('highlights')
+require('diff')
+require('highlight')

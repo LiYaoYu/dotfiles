@@ -50,5 +50,6 @@ alias g='git'
 alias history='fc -il 1'
 alias ls='ls --color=auto'
 alias vim='nvim'
+alias vimdiff='nvim -d'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

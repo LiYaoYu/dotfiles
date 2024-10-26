@@ -1,41 +1,49 @@
--- brackets complement
-vim.api.nvim_set_keymap('i', '{<CR>', '{<CR>}<Esc>ko', {})
+-- complete brackets
+vim.api.nvim_set_keymap('i', '{<CR>', '{<CR>}<Esc>ko', {silent = true})
 
--- navigation between splited windows
-vim.api.nvim_set_keymap('n', '<C-J>', '<C-W><C-J>', {})
-vim.api.nvim_set_keymap('n', '<C-K>', '<C-W><C-K>', {})
-vim.api.nvim_set_keymap('n', '<C-L>', '<C-W><C-L>', {})
-vim.api.nvim_set_keymap('n', '<C-H>', '<C-W><C-H>', {})
+-- navigate between splited windows
+vim.api.nvim_set_keymap('n', '<C-J>', '<C-W><C-J>', {silent = true})
+vim.api.nvim_set_keymap('n', '<C-K>', '<C-W><C-K>', {silent = true})
+vim.api.nvim_set_keymap('n', '<C-L>', '<C-W><C-L>', {silent = true})
+vim.api.nvim_set_keymap('n', '<C-H>', '<C-W><C-H>', {silent = true})
 
--- windows resizing
-vim.api.nvim_set_keymap('n', ',', '<C-W><', {})
-vim.api.nvim_set_keymap('n', '.', '<C-W>>', {})
+-- resize windows
+vim.api.nvim_set_keymap('n', ',', '<C-W><', {silent = true})
+vim.api.nvim_set_keymap('n', '.', '<C-W>>', {silent = true})
 
--- tabbing
-vim.api.nvim_set_keymap('n', 'T', ':tabe<CR>', {})
+-- tab
+vim.api.nvim_set_keymap('n', 'T', ':tabe<CR>', {silent = true})
 
--- tab rolling
-vim.api.nvim_set_keymap('n', '-', 'gT', {})
-vim.api.nvim_set_keymap('n', '=', 'gt', {})
+-- roll tabs
+vim.api.nvim_set_keymap('n', '-', 'gT', {silent = true})
+vim.api.nvim_set_keymap('n', '=', 'gt', {silent = true})
 
--- code tracking (use Telescope for getting definition, since Lspsaga
--- goto_definition does not support tagstack)
--- note that the Telescope tagstack (for lsp_definitions) and the
--- Lspsaga tagstack share the same tagstack
-vim.api.nvim_set_keymap('n', 'gd', ':Telescope lsp_definitions<CR>', {})
-vim.api.nvim_set_keymap('n', 'gc', ':Telescope lsp_incoming_calls<CR>', {})
-vim.api.nvim_set_keymap('n', 'gr', ':Telescope lsp_references<CR>', {})
-vim.api.nvim_set_keymap('n', 'gp', ':Lspsaga peek_definition<CR>', {})
-vim.api.nvim_set_keymap('n', 'rn', ':Lspsaga rename ++project<CR>', {})
-vim.api.nvim_set_keymap('n', 'K', ':Lspsaga hover_doc ++keep<CR>', {})
+-- roll buffers
+vim.api.nvim_set_keymap('n', '{', ':bprev<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', '}', ':bnext<CR>', {silent = true})
 
--- current file vertical splitting
-vim.api.nvim_set_keymap('n', '<F2>', ':vsplit<CR>', {})
+-- close current buffer
+vim.api.nvim_set_keymap('n', 'q', ':bd<CR>', {silent = true})
 
--- explorer files/keywords
-vim.keymap.set('n', '<F3>', ':Telescope grep_string<CR>')
-vim.keymap.set('n', '<F4>', ':cdo %s///gc <Left><Left><Left><Left><Left>')
-vim.keymap.set('n', '<F5>', ':Telescope live_grep<CR>')
-vim.keymap.set('n', '<F6>', ':Telescope find_files<CR>')
-vim.keymap.set('n', '<F7>', ':NvimTreeFindFileToggle<CR>')
-vim.keymap.set('n', '<F12>', ':Lspsaga outline<CR>')
+-- navigate code
+vim.api.nvim_set_keymap('n', 'gd', ':FzfLua lsp_definitions<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', 'gc', ':FzfLua lsp_incoming_calls<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', 'gr', ':FzfLua lsp_references<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', 'gp', ':Lspsaga peek_definition<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', 'rn', ':Lspsaga rename ++project<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', 'K', ':Lspsaga hover_doc ++keep<CR>', {silent = true})
+
+-- diagnostic
+vim.api.nvim_set_keymap('n', 'L', ':lua vim.diagnostic.open_float()<CR>', {silent = true})
+
+-- split current file in vertical
+vim.api.nvim_set_keymap('n', '<F1>', ':split<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', '<F2>', ':vsplit<CR>', {silent = true})
+
+-- explore files/keywords
+vim.api.nvim_set_keymap('n', '<F3>', ':FzfLua grep_cword<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', '<F4>', ':Spectre<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', '<F5>', ':FzfLua live_grep<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', '<F6>', ':FzfLua files<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', '<F7>', ':NvimTreeFindFileToggle<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', '<F8>', ':Lspsaga outline<CR>', {silent = true})

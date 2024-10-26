@@ -1,5 +1,5 @@
--- utf8
-vim.g.encoding = "UTF-8"
+-- configure encodings
+vim.g.encoding = 'UTF-8'
 vim.o.fileencoding = 'utf-8'
 
 -- emit true color
@@ -9,22 +9,22 @@ vim.opt.termguicolors = true
 vim.o.scrolloff = 4
 vim.o.sidescrolloff = 4
 
--- need confirmation before exit
+-- confirm before exit
 vim.o.confirm = true
 
--- do not change lines
+-- configure lines wrapping
 vim.o.wrap = false
 vim.wo.wrap = false
 
 -- enable mouse
 vim.o.mouse = 'a'
 
--- disable to create swp file
+-- disable swap file
 vim.o.backup = false
 vim.o.writebackup = false
 vim.o.swapfile = false
 
--- line number
+-- enable line number
 vim.wo.number = true
 
 -- enable cursor line
@@ -51,80 +51,21 @@ vim.api.nvim_exec(
 -- ignore case sensitve when string search
 vim.api.nvim_command('set ignorecase')
 
--- diagnostic config
-local signs = { Error = '│', Warn = '│', Hint = '│', Info = '│' }
+-- configure diagnostic
+vim.diagnostic.config({virtual_text = false})
+vim.diagnostic.config({float = {border = 'rounded'}})
+
+local signs = {Error = '│', Warn = '│', Hint = '│', Info = '│'}
 
 for type, icon in pairs(signs) do
-  local hl = 'DiagnosticSign' .. type
-  vim.fn.sign_define(
-    hl,
-    {
-        text = icon,
-        texthl = hl,
-        numhl = hl
-    }
-)
+    local hl = 'DiagnosticSign' .. type
+
+    vim.fn.sign_define(
+        hl,
+        {
+            text = icon,
+            texthl = hl,
+            numhl = hl
+        }
+    )
 end
-
--- LSP completion configurations
-local cmp = require('cmp')
-
-cmp.setup(
-    {
-        mapping = {
-            ['<C-p>'] = cmp.mapping(
-                cmp.mapping.select_prev_item(),
-                { 'i', 'c' }
-            ),
-            ['<C-n>'] = cmp.mapping(
-                cmp.mapping.select_next_item(),
-                { 'i', 'c' }
-            ),
-            ['<CR>'] = cmp.mapping.confirm(
-                { select = true }
-            ),
-        },
-        formatting = {
-            format = function(entry, vim_item)
-                -- set a name for each source
-                vim_item.menu = (
-                    {
-                        nvim_lsp = '[LSP]',
-                        buffer = '[BUF]',
-                    }
-                )[entry.source.name]
-
-                return vim_item
-            end
-        },
-        sources = cmp.config.sources(
-            {
-                {name = 'nvim_lsp'},
-            },
-            {
-                {name = 'buffer'},
-            }
-        )
-    }
-)
-
--- Use buffer source for `/`
-cmp.setup.cmdline('/', {
-    sources = {
-        { name = 'buffer' }
-    }
-})
-
--- Use cmdline & path source for ':'
-cmp.setup.cmdline(
-    ':', {
-        sources = cmp.config.sources(
-            {
-                { name = 'path' }
-            },
-            {
-                { name = 'cmdline' }
-            }
-        )
-    }
-)
