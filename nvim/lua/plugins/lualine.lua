@@ -4,6 +4,10 @@ return {
         'nvim-tree/nvim-web-devicons'
     },
     config = function()
+        local function codeiumStatus()
+            return 'Codeium:' .. vim.api.nvim_call_function("codeium#GetStatusString", {})
+        end
+
         require('lualine').setup {
             sections = {
                 lualine_c = {
@@ -12,7 +16,7 @@ return {
                     }
                 },
                 lualine_x = {
-                    'searchcount', 'encoding', 'fileformat', 'filetype'
+                    codeiumStatus, 'searchcount', 'encoding', 'fileformat', 'filetype'
                 },
             },
             options = {
