@@ -6,14 +6,9 @@ return {
     },
     config = function()
         require('lspsaga').setup {
-            ui = {
-                code_action = ''
-            },
-            symbol_in_winbar = {
-                enable = false
-            }
+            ui = { code_action = '' },
+            show_outline = { win_position = 'right' }
         }
-
         vim.api.nvim_command('hi NormalFloat guibg=none')
     end
 }

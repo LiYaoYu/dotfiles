@@ -1,4 +1,4 @@
-if vim.api.nvim_win_get_option(0, "diff") then
+if vim.api.nvim_win_get_option(0, 'diff') then
     vim.api.nvim_command('hi DiffLeftLine guibg=#26171c')
     vim.api.nvim_command('hi DiffLeftText guibg=#782d2d')
     vim.api.nvim_command('hi DiffRightLine guibg=#13261d')
@@ -26,8 +26,7 @@ if vim.api.nvim_win_get_option(0, "diff") then
         end
     end
 
-    vim.api.nvim_create_autocmd("BufRead", {
-        callback = set_diff_mode_highlight,
-    })
-
+    vim.api.nvim_create_autocmd(
+        'BufRead', { callback = set_diff_mode_highlight }
+    )
 end

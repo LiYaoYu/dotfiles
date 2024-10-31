@@ -52,10 +52,10 @@ vim.api.nvim_exec(
 vim.api.nvim_command('set ignorecase')
 
 -- configure diagnostic
-vim.diagnostic.config({virtual_text = false})
-vim.diagnostic.config({float = {border = 'rounded'}})
+vim.diagnostic.config({ virtual_text = false })
+vim.diagnostic.config({ float = { border = 'rounded' } })
 
-local signs = {Error = '│', Warn = '│', Hint = '│', Info = '│'}
+local signs = { Error = '│', Warn = '│', Hint = '│', Info = '│' }
 
 for type, icon in pairs(signs) do
     local hl = 'DiagnosticSign' .. type

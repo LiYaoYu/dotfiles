@@ -16,17 +16,15 @@ return {
             },
             sources = cmp.config.sources(
                 {
-                    {name = 'nvim_lsp'},
-                    {name = 'buffer'},
-                    {name = 'path'},
+                    { name = 'nvim_lsp' },
+                    { name = 'buffer' },
+                    { name = 'path' },
                 }
             ),
             window = {
                 documentation = cmp.config.window.bordered(),
                 completion = cmp.config.window.bordered(
-                    {
-                        winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None'
-                    }
+                    { winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None' }
                 ),
             },
             formatting = {
@@ -63,13 +61,15 @@ return {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = cmp.config.sources(
                     {
-                        {name = 'path'},
-                        {name = 'buffer'}
+                        { name = 'path' },
+                        { name = 'buffer' }
                     },
                     {
                         {
                             name = 'cmdline',
-                            option = {ignore_cmds = {'Man', '!'}}
+                            option = {
+                                ignore_cmds = { 'Man', '!' }
+                            }
                         }
                     }
                 )

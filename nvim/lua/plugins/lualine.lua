@@ -5,15 +5,13 @@ return {
     },
     config = function()
         local function codeiumStatus()
-            return 'Codeium:' .. vim.api.nvim_call_function("codeium#GetStatusString", {})
+            return 'Codeium:' .. vim.api.nvim_call_function('codeium#GetStatusString', {})
         end
 
         require('lualine').setup {
             sections = {
                 lualine_c = {
-                    {
-                        'filename', path = 1
-                    }
+                    { 'filename', path = 1 }
                 },
                 lualine_x = {
                     codeiumStatus, 'searchcount', 'encoding', 'fileformat', 'filetype'
@@ -21,9 +19,9 @@ return {
             },
             options = {
                 theme = 'vscode',
-                disabled_filetypes = {'NvimTree'},
-                component_separators = {left = '|', right = '|'},
-                section_separators = {left = '', right = ''}
+                globalstatus = true,
+                component_separators = { left = '|', right = '|' },
+                section_separators = { left = '', right = '' }
             }
         }
     end

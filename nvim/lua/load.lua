@@ -2,14 +2,14 @@
 require('lazy').setup(
     {
         spec = {
-            {import = 'plugins'},
+            { import = 'plugins' },
         },
 
         -- configure any other settings here
         -- colorscheme that will be used when installing plugins
-        install = {colorscheme = {'habamax'}},
+        install = { colorscheme = { 'habamax' } },
 
         -- automatically check for plugin updates
-        checker = {enabled = false},
+        checker = { enabled = false },
     }
 )
