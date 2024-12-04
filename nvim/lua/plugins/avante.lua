@@ -24,13 +24,13 @@ return {
     config = function()
         require('avante_lib').load()
         require('avante').setup {
-            provider = 'gemini',
+            provider = 'openai',
             mappings = {
                 ask = '<A-l>',
                 edit = '<A-;>'
             },
-            gemini = {
-                api_key_name = 'cmd: cat ' .. os.getenv('HOME') .. '/.gemini/api.key'
+            openai = {
+                api_key_name = 'cmd: cat ' .. os.getenv('HOME') .. '/.openai/api.key'
             },
         }
     end
