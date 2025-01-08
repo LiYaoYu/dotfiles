@@ -32,6 +32,9 @@ fi
 # Source plugins and add commands to $PATH
 zplug load
 
+# To make FZF_DEFAULT_OPTS work with zplug 'Aloxaf/fzf-tab'
+zstyle ':fzf-tab:*' fzf-flags ${(Q)${(Z:nC:)FZF_DEFAULT_OPTS}}
+
 # Add python binary to $PATH
 PATH=$PATH:~/.local/bin:~/.cargo/bin
 
