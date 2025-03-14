@@ -1,8 +1,18 @@
 return {
-    'yetone/avante.nvim',
-    event = 'VeryLazy',
-    lazy = false,
+    'yetone/avante.nvim', tag = 'v0.0.21',
     version = false,
+    opts = {
+        provider = "openai",
+        openai = {
+            endpoint = "https://api.openai.com/v1",
+            model = "o3-mini",
+            api_key_name = 'cmd: cat ' .. os.getenv('HOME') .. '/.openai/api.key'
+        },
+        mappings = {
+            ask = '<A-l>',
+            edit = '<A-;>'
+        },
+    },
     dependencies = {
         'nvim-treesitter/nvim-treesitter',
         'stevearc/dressing.nvim',
@@ -21,17 +31,4 @@ return {
             ft = { 'markdown', 'Avante' },
         },
     },
-    config = function()
-        require('avante_lib').load()
-        require('avante').setup {
-            provider = 'openai',
-            mappings = {
-                ask = '<A-l>',
-                edit = '<A-;>'
-            },
-            openai = {
-                api_key_name = 'cmd: cat ' .. os.getenv('HOME') .. '/.openai/api.key'
-            },
-        }
-    end
 }
