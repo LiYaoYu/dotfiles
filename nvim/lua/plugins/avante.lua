@@ -16,18 +16,8 @@ return {
             ask = '<A-l>',
             edit = '<A-;>',
         },
-        cursor_applying_provider = "groq",
         behaviour = {
             enable_cursor_planning_mode = true,
-        },
-        vendors = {
-            groq = {  -- Configuration for groq provider
-                __inherited_from = "openai",
-                api_key_name = 'cmd: cat ' .. os.getenv('HOME') .. '/.groq/api.key',
-                endpoint = "https://api.groq.com/openai/v1/",
-                model = "llama-3.3-70b-versatile",
-                max_tokens = 32768,  -- Ensure sufficient tokens for processing
-            },
         },
     },
     dependencies = {
