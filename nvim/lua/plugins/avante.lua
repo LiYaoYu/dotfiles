@@ -1,16 +1,13 @@
--- Set ANTHROPIC_API_KEY to empty here to avoid avante chat popup for
--- ANTHROPIC_API_KEY in some version
-vim.env.ANTHROPIC_API_KEY = ''
-
 return {
     'yetone/avante.nvim',
     event = 'VeryLazy',
     version = false,
     opts = {
-        provider = 'openai',
-        openai = {
-            endpoint = 'https://api.openai.com/v1',
-            api_key_name = 'cmd: cat ' .. os.getenv('HOME') .. '/.openai/api.key',
+        provider = 'claude',
+        claude = {
+            endpoint = 'https://api.anthropic.com',
+            model = 'claude-3-5-haiku-20241022',
+            api_key_name = 'cmd: cat ' .. os.getenv('HOME') .. '/.anthropic/api.key',
         },
         mappings = {
             ask = '<A-l>',
