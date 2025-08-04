@@ -33,7 +33,6 @@ vim.wo.cursorline = true
 -- handle trailing list
 vim.opt.list = true
 vim.opt.listchars:append('trail:⋅')
-vim.api.nvim_command('hi Whitespace guifg=#ff8282')
 
 -- set tab expanding
 vim.o.tabstop = 4
@@ -42,14 +41,19 @@ vim.o.shiftwidth = 4
 vim.o.expandtab = true
 
 -- set tab config specifically for Makefile
-vim.api.nvim_exec(
-    'au FileType make setlocal ' ..
-    'tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab',
-    false
-)
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "make",
+    callback = function()
+        vim.opt_local.tabstop = 4
+        vim.opt_local.softtabstop = 4
+        vim.opt_local.shiftwidth = 4
+        vim.opt_local.expandtab = false
+    end,
+    desc = "Use tabs instead of spaces for Makefiles"
+})
 
--- ignore case sensitve when string search
-vim.api.nvim_command('set ignorecase')
+-- ignore case sensitive when string search
+vim.opt.ignorecase = true
 
 -- configure diagnostic
 vim.diagnostic.config(
@@ -78,26 +82,30 @@ local ns_id = vim.api.nvim_create_namespace("column_guide")
 
 local function show_column_guide()
     local bufnr = vim.api.nvim_get_current_buf()
-    local lines = vim.api.nvim_buf_line_count(bufnr)
+    local buftype = vim.api.nvim_buf_get_option(bufnr, 'buftype')
 
-    -- make sure highlight is set before using it
-    vim.api.nvim_command('hi ColumnGuide guifg=#303030 ctermfg=236')
+    -- Only show for normal editable buffers (buftype == '')
+    -- This includes empty buffers and excludes terminals, help, quickfix, etc.
+    if buftype ~= '' then
+        return
+    end
+
+    local total_lines = vim.api.nvim_buf_line_count(bufnr)
+
     vim.api.nvim_buf_clear_namespace(bufnr, ns_id, 0, -1)
 
-    for i = 0, lines - 1 do
-        local line = vim.api.nvim_buf_get_lines(bufnr, i, i + 1, false)[1] or ""
+    -- process entire buffer, which is simpler and reliable
+    for i = 0, total_lines - 1 do
+        local line = vim.api.nvim_buf_get_lines(bufnr, i, i + 1, false)[1] or ''
         local line_len = #line
-
-        -- calculate visual column width (accounts for tabs)
         local visual_width = vim.fn.strdisplaywidth(line)
 
         if visual_width < 80 then
-            local padding = string.rep(" ", 80 - visual_width)
-
             vim.api.nvim_buf_set_extmark(
                 bufnr, ns_id, i, line_len, {
-                    virt_text = { { padding .. "│", "ColumnGuide" } },
-                    virt_text_pos = "eol",
+                    virt_text = { { "│", "ColumnGuide" } },
+                    virt_text_pos = "overlay",
+                    virt_text_win_col = 79,
                     hl_mode = "combine"
                 }
             )

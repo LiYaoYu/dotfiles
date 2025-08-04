@@ -23,8 +23,5 @@ return {
             }
 
         }
-
-        -- disable bufferline background color
-        vim.api.nvim_command('hi BufferLineFill guibg=none')
     end
 }

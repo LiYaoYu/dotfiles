@@ -9,6 +9,5 @@ return {
             ui = { code_action = '' },
             show_outline = { win_position = 'right' }
         }
-        vim.api.nvim_command('hi NormalFloat guibg=none')
     end
 }

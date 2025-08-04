@@ -5,20 +5,27 @@ return {
     config = function()
         require("claudecode").setup()
 
-        -- Send selection and add buffer
+        -- send selection and add buffer
         vim.api.nvim_create_user_command("ClaudeCodeSendAndAdd", function()
             vim.cmd("ClaudeCodeSend")
             vim.cmd("ClaudeCodeAdd %")
         end, { range = true })
 
-        -- Add ESC to exit terminal mode in Claude buffers
+        -- add ESC to exit terminal mode in Claude buffers
         vim.api.nvim_create_autocmd("TermOpen", {
             callback = function()
                 local bufname = vim.api.nvim_buf_get_name(0)
-                if string.match(bufname, "claude") or string.match(bufname, "Claude") then
-                    vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { buffer = true, nowait = true })
+                if bufname and bufname ~= "" and
+                   (bufname:match("claude") or bufname:match("Claude")) then
+                    -- map ESC to exit terminal mode in Claude buffers
+                    vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", {
+                        buffer = true,
+                        nowait = true,
+                        desc = "Exit terminal mode in Claude buffer"
+                    })
                 end
             end,
+            desc = "Setup Claude terminal buffer keymaps"
         })
     end,
     keys = {
