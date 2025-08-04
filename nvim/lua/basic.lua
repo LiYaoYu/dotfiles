@@ -72,3 +72,41 @@ vim.diagnostic.config(
         }
     }
 )
+
+-- configure 80 column reminder
+local ns_id = vim.api.nvim_create_namespace("column_guide")
+
+local function show_column_guide()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local lines = vim.api.nvim_buf_line_count(bufnr)
+
+    -- make sure highlight is set before using it
+    vim.api.nvim_command('hi ColumnGuide guifg=#303030 ctermfg=236')
+    vim.api.nvim_buf_clear_namespace(bufnr, ns_id, 0, -1)
+
+    for i = 0, lines - 1 do
+        local line = vim.api.nvim_buf_get_lines(bufnr, i, i + 1, false)[1] or ""
+        local line_len = #line
+
+        -- calculate visual column width (accounts for tabs)
+        local visual_width = vim.fn.strdisplaywidth(line)
+
+        if visual_width < 80 then
+            local padding = string.rep(" ", 80 - visual_width)
+
+            vim.api.nvim_buf_set_extmark(
+                bufnr, ns_id, i, line_len, {
+                    virt_text = { { padding .. "│", "ColumnGuide" } },
+                    virt_text_pos = "eol",
+                    hl_mode = "combine"
+                }
+            )
+        end
+    end
+end
+
+vim.api.nvim_create_autocmd(
+    { "TextChanged", "TextChangedI", "BufEnter" }, {
+        callback = show_column_guide,
+    }
+)
